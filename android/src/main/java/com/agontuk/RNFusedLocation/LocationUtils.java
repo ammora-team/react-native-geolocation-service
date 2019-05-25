@@ -5,6 +5,7 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.Manifest;
 import android.os.Build;
+import android.os.Bundle;
 import android.text.TextUtils;
 import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
@@ -74,6 +75,8 @@ public class LocationUtils {
         WritableMap map = Arguments.createMap();
         WritableMap coords = Arguments.createMap();
 
+        Bundle bundle = location.getExtras();
+
         coords.putDouble("latitude", location.getLatitude());
         coords.putDouble("longitude", location.getLongitude());
         coords.putDouble("altitude", location.getAltitude());
@@ -82,6 +85,7 @@ public class LocationUtils {
         coords.putDouble("speed", location.getSpeed());
         map.putMap("coords", coords);
         map.putDouble("timestamp", location.getTime());
+        map.putInt("satellites", bundle.getInt("satellites"));
 
         if (Build.VERSION.SDK_INT >= 18) {
             map.putBoolean("mocked", location.isFromMockProvider());
