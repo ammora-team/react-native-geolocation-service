@@ -6,7 +6,7 @@ import android.content.IntentSender.SendIntentException;
 import android.location.Location;
 import android.util.Log;
 import android.location.GpsStatus;
-import android.location.GnssStatus;
+import android.location.GpsSatellite;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.content.Context;
@@ -125,9 +125,9 @@ public class RNFusedLocationModule extends ReactContextBaseJavaModule {
 
                 @Override
                 public void onStatusChanged(String provider, int status, Bundle extras) {
-                    List<GnssStatus> satellites = new ArrayList<GnssStatus>();
+                    List<GpsSatellite> satellites = new ArrayList<GpsSatellite>();
                     int countSatellitesInFix = 0;
-                    for (GnssStatus sat : mLocationManager.getGpsStatus(null).getSatellites()) {
+                    for (GpsSatellite sat : mLocationManager.getGpsStatus(null).getSatellites()) {
                         if (sat.usedInFix()) {
                             countSatellitesInFix++;
                         }
