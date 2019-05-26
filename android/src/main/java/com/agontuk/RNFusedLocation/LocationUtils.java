@@ -5,7 +5,6 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.Manifest;
 import android.os.Build;
-import android.os.Bundle;
 import android.text.TextUtils;
 import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
@@ -17,6 +16,11 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 
 public class LocationUtils {
+
+    private static int mSatellites;
+
+    private static int mSatellitesFix;
+
     /**
      * Check if location permissions are granted.
      */
@@ -71,11 +75,17 @@ public class LocationUtils {
         return error;
     }
 
+    public static setSatellites(int sat) {
+        mSatellites = sat;
+    }
+
+    public static setSatellitesFix(int sat) {
+        mSatellitesFix = sat;
+    }
+
     public static WritableMap locationToMap(Location location) {
         WritableMap map = Arguments.createMap();
         WritableMap coords = Arguments.createMap();
-
-        Bundle bundle = location.getExtras();
 
         coords.putDouble("latitude", location.getLatitude());
         coords.putDouble("longitude", location.getLongitude());
@@ -85,7 +95,8 @@ public class LocationUtils {
         coords.putDouble("speed", location.getSpeed());
         map.putMap("coords", coords);
         map.putDouble("timestamp", location.getTime());
-        map.putInt("satellites", bundle.getInt("satellites"));
+        map.putInt("satellites", mSatellites);
+        map.putInt("satellitesFix", mSatellitesFix);
 
         if (Build.VERSION.SDK_INT >= 18) {
             map.putBoolean("mocked", location.isFromMockProvider());

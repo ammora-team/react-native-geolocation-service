@@ -133,8 +133,8 @@ public class RNFusedLocationModule extends ReactContextBaseJavaModule {
                         }
                         satellites.add(sat);
                     }
-                    // mGPSLocationData.setSatellites(satellites);
-                    // mGPSLocationData.setSatellitesInFix(countSatellitesInFix);
+                    LocationUtils.setSatellites(satellites);
+                    LocationUtils.setSatellitesFix(countSatellitesInFix);
                 }
 
                 @Override
