@@ -75,11 +75,11 @@ public class LocationUtils {
         return error;
     }
 
-    public static setSatellites(int sat) {
+    public static void setSatellites(int sat) {
         mSatellites = sat;
     }
 
-    public static setSatellitesFix(int sat) {
+    public static void setSatellitesFix(int sat) {
         mSatellitesFix = sat;
     }
 
