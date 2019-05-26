@@ -6,6 +6,7 @@ import android.content.IntentSender.SendIntentException;
 import android.location.Location;
 import android.util.Log;
 import android.location.LocationManager;
+import android.content.Context;
 
 import com.facebook.react.bridge.ActivityEventListener;
 import com.facebook.react.bridge.BaseActivityEventListener;
@@ -97,7 +98,7 @@ public class RNFusedLocationModule extends ReactContextBaseJavaModule {
         mFusedProviderClient = LocationServices.getFusedLocationProviderClient(reactContext);
         mSettingsClient = LocationServices.getSettingsClient(reactContext);
         reactContext.addActivityEventListener(mActivityEventListener);
-        mLocationManager = (LocationManager) reactContext.getSystemService(LOCATION_SERVICE);
+        mLocationManager = (LocationManager) reactContext.getSystemService(Context.LOCATION_SERVICE);
 
         Log.i(TAG, TAG + " initialized");
     }
@@ -111,6 +112,7 @@ public class RNFusedLocationModule extends ReactContextBaseJavaModule {
         Boolean isGPSEnabled = mLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
 
         if (isGPSEnabled) {
+
             mLocationManager.requestLocationUpdates(
                 LocationManager.GPS_PROVIDER,
                 1000,
@@ -125,6 +127,7 @@ public class RNFusedLocationModule extends ReactContextBaseJavaModule {
 
     @Override
     public void onStatusChanged(String provider, int status, Bundle extras) {
+        // @todo set satellites
     }
 
     @Override
