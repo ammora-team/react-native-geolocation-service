@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.IntentSender.SendIntentException;
 import android.location.Location;
 import android.util.Log;
+import android.location.LocationManager;
 
 import com.facebook.react.bridge.ActivityEventListener;
 import com.facebook.react.bridge.BaseActivityEventListener;
@@ -58,6 +59,8 @@ public class RNFusedLocationModule extends ReactContextBaseJavaModule {
     private LocationRequest mLocationRequest;
     private LocationCallback mLocationCallback;
 
+    private LocationManager mLocationManager;
+
     private final ActivityEventListener mActivityEventListener = new BaseActivityEventListener() {
         @Override
         public void onActivityResult(Activity activity, int requestCode, int resultCode, Intent intent) {
@@ -65,6 +68,7 @@ public class RNFusedLocationModule extends ReactContextBaseJavaModule {
                 if (resultCode == Activity.RESULT_OK || mForceRequestLocation) {
                     // Location settings changed successfully, request user location.
                     getUserLocation();
+                    gpsProvider();
                 } else if (resultCode == Activity.RESULT_CANCELED) {
                     invokeError(
                             LocationError.SETTINGS_NOT_SATISFIED.getValue(),
@@ -93,6 +97,7 @@ public class RNFusedLocationModule extends ReactContextBaseJavaModule {
         mFusedProviderClient = LocationServices.getFusedLocationProviderClient(reactContext);
         mSettingsClient = LocationServices.getSettingsClient(reactContext);
         reactContext.addActivityEventListener(mActivityEventListener);
+        mLocationManager = (LocationManager) reactContext.getSystemService(LOCATION_SERVICE);
 
         Log.i(TAG, TAG + " initialized");
     }
@@ -101,6 +106,35 @@ public class RNFusedLocationModule extends ReactContextBaseJavaModule {
     public String getName() {
         return TAG;
     }
+
+    private void gpsProvider() {
+        Boolean isGPSEnabled = mLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+
+        if (isGPSEnabled) {
+            mLocationManager.requestLocationUpdates(
+                LocationManager.GPS_PROVIDER,
+                1000,
+                0,
+                this
+            );
+        }
+    }
+
+    @Override
+    public void onLocationChanged(Location location) {}
+
+    @Override
+    public void onStatusChanged(String provider, int status, Bundle extras) {
+    }
+
+    @Override
+    public void onProviderEnabled(String provider) {}
+
+    @Override
+    public void onProviderDisabled(String provider) {}
+
+    @Override
+    public void onNmeaReceived(long timestamp, String nmea) {}
 
     /**
      * Get the current position. This can return almost immediately if the location is cached or
