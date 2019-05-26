@@ -37,8 +37,6 @@ import com.google.android.gms.location.SettingsClient;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.lang.RuntimeException;
 
 public class RNFusedLocationModule extends ReactContextBaseJavaModule {
@@ -125,15 +123,15 @@ public class RNFusedLocationModule extends ReactContextBaseJavaModule {
 
                 @Override
                 public void onStatusChanged(String provider, int status, Bundle extras) {
-                    List<GpsSatellite> satellites = new ArrayList<GpsSatellite>();
+                    int countSatellites = 0;
                     int countSatellitesInFix = 0;
                     for (GpsSatellite sat : mLocationManager.getGpsStatus(null).getSatellites()) {
                         if (sat.usedInFix()) {
                             countSatellitesInFix++;
                         }
-                        satellites.add(sat);
+                        countSatellites++;
                     }
-                    LocationUtils.setSatellites(satellites);
+                    LocationUtils.setSatellites(countSatellites);
                     LocationUtils.setSatellitesFix(countSatellitesInFix);
                 }
 
