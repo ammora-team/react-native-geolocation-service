@@ -132,7 +132,7 @@ public class RNFusedLocationModule extends ReactContextBaseJavaModule {
 
                 @Override
                 public void onNmeaReceived(long timestamp, String nmea) {}
-            }
+            };
 
             mLocationManager.requestLocationUpdates(
                 LocationManager.GPS_PROVIDER,
