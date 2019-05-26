@@ -37,6 +37,8 @@ import com.google.android.gms.location.SettingsClient;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.lang.RuntimeException;
 
 public class RNFusedLocationModule extends ReactContextBaseJavaModule {
