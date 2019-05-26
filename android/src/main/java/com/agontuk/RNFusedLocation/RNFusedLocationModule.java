@@ -129,9 +129,6 @@ public class RNFusedLocationModule extends ReactContextBaseJavaModule {
 
                 @Override
                 public void onProviderDisabled(String provider) {}
-
-                @Override
-                public void onNmeaReceived(long timestamp, String nmea) {}
             };
 
             mLocationManager.requestLocationUpdates(
