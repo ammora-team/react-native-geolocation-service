@@ -7,6 +7,7 @@ import android.location.Location;
 import android.util.Log;
 import android.location.LocationManager;
 import android.content.Context;
+import android.os.Bundle;
 
 import com.facebook.react.bridge.ActivityEventListener;
 import com.facebook.react.bridge.BaseActivityEventListener;
